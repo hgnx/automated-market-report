@@ -22,7 +22,7 @@ indices_symbol              = {
 def get_indices_data(ticker: str) -> tuple:
     indices_ticker          = yf.Ticker(ticker)
     daily_data              = indices_ticker.history(interval="1d", period="21d")['Close']
-    weekly_data             = indices_ticker.history(interval="1wk", period="1wk")['Close']
+    weekly_data             = indices_ticker.history(interval="1wk", period="2wk")['Close']
     monthly_data            = indices_ticker.history(interval="1mo", period="2mo")['Close']
     yearly_data             = indices_ticker.history(interval="1mo", period="1y", start=f"{datetime.datetime.now().year-1}-12-01")['Close']
 

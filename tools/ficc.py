@@ -51,7 +51,7 @@ def us_yield(ticker:str) -> tuple:
 def get_other_data(ticker: str) -> tuple:
     ficc_ticker             = yf.Ticker(ticker)
     daily_data              = ficc_ticker.history(interval="1d", period="21d")['Close']
-    weekly_data             = ficc_ticker.history(interval="1wk", period="1wk")['Close']
+    weekly_data             = ficc_ticker.history(interval="1wk", period="2wk")['Close']
     monthly_data            = ficc_ticker.history(interval="1mo", period="2mo")['Close']
     yearly_data             = ficc_ticker.history(interval="1mo", period="1y", start=f"{datetime.datetime.now().year-1}-12-01")['Close']
 
@@ -76,7 +76,7 @@ def get_all_ficc_data() -> list[list]:
             close, day_pctchg, week_pctchg, mtd, month_pctchg, ytd = get_other_data(ticker)
         return [key, close, day_pctchg, week_pctchg, mtd, month_pctchg, ytd]
 
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
         results             = list(tqdm(executor.map(fetch_data, ficc_symbol.items()),
                                         total=len(ficc_symbol), desc="Getting FICC Data"))
         data.extend(results)
