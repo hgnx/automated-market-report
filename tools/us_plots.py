@@ -1,6 +1,7 @@
 import os
 import yfinance as yf
 import plotly.graph_objects as go
+from tqdm import tqdm
 from tools.etfs import get_etf_data, etfs_symbol
 
 def create_nasdaq_graph(filename):
@@ -26,7 +27,7 @@ def create_sp500_graph(filename):
 def create_sector_change_graph(filename):
     sectors                 = ['IT', 'Healthcare', 'Financials', 'Consumer Discretionary', 'Communication Services',
                                 'Industrials', 'Consumer Staples', 'Energy', 'Utilities', 'Real Estate', 'Materials']
-    changes                 = [get_etf_data(etfs_symbol[sector]) for sector in sectors]
+    changes                 = [get_etf_data(etfs_symbol[sector]) for sector in tqdm(sectors, desc="Getting ETFs Data")]
 
     fig                     = go.Figure([go.Bar(x=sectors, y=changes)])
     fig.update_layout(title="Sector Change",
