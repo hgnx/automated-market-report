@@ -9,7 +9,7 @@ def get_similar_column_name(df, col_str):
         raise ValueError(f"Cannot find a column similar to {col_str}")
 
 def process_data(df):
-    pct_chg_col = get_similar_column_name(df, "% Change")
+    pct_chg_col             = get_similar_column_name(df, "% Change")
     return [
         [
             row['Company'].split(' ', 1)[0],
