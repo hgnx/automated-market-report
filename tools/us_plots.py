@@ -1,28 +1,51 @@
 import os
+import time
 import yfinance as yf
 import plotly.graph_objects as go
 from tqdm import tqdm
 from tools.etfs import get_etf_data, etfs_symbol
 
-def create_nasdaq_graph(filename):
-    IXIC                    = round(yf.Ticker("^IXIC").history(period="1d", interval="1h")['Close'], 2)
-    IXIC.index              = IXIC.index.tz_localize(None)
-    fig                     = go.Figure(data=go.Scatter(x=IXIC.index, y=IXIC.values, mode='lines'))
-    fig.update_layout(title="NASDAQ Intraday Change",
-                      xaxis_title="",
-                      xaxis=dict(tickformat='%H:%M'),
-                      width=600, height=400)
-    fig.write_image(filename)
+def create_nasdaq_graph(filename, max_retries=3, wait_time=5):
+    for retry in range(max_retries):
+        try:
+            IXIC            = round(yf.Ticker("^IXIC").history(period="1d", interval="1h")['Close'], 2)
+            IXIC.index      = IXIC.index.tz_localize(None)
+            fig             = go.Figure(data=go.Scatter(x=IXIC.index, y=IXIC.values, mode='lines'))
+            fig.update_layout(title="NASDAQ Intraday Change",
+                              xaxis_title="",
+                              xaxis=dict(tickformat='%H:%M'),
+                              width=600, height=400)
+            fig.write_image(filename)
+            break
+        
+        except Exception as e:
+            print(f"Retrying {retry+1}/{max_retries}: Error fetching data for ^IXIC - {e}")
+            if retry < max_retries - 1:
+                print(f"Waiting {wait_time} seconds before retrying...")
+                time.sleep(wait_time)
+    else:
+        print("Max retries reached. Could not fetch data.")
 
-def create_sp500_graph(filename):
-    SPX                     = round(yf.Ticker("^SPX").history(period="1d", interval="1h")['Close'], 2)
-    SPX.index = SPX.index.tz_localize(None)
-    fig                     = go.Figure(data=go.Scatter(x=SPX.index, y=SPX.values, mode='lines'))
-    fig.update_layout(title="S&P500 Intraday Change",
-                      xaxis_title="",
-                      xaxis=dict(tickformat='%H:%M'),
-                      width=600, height=400)
-    fig.write_image(filename)
+def create_sp500_graph(filename, max_retries=3, wait_time=5):
+    for retry in range(max_retries):
+        try:
+            GSPC            = round(yf.Ticker("^GSPC").history(period="1d", interval="1h")['Close'], 2)
+            GSPC.index      = GSPC.index.tz_localize(None)
+            fig             = go.Figure(data=go.Scatter(x=GSPC.index, y=GSPC.values, mode='lines'))
+            fig.update_layout(title="S&P500 Intraday Change",
+                              xaxis_title="",
+                              xaxis=dict(tickformat='%H:%M'),
+                              width=600, height=400)
+            fig.write_image(filename)
+            break
+        
+        except Exception as e:
+            print(f"Retrying {retry+1}/{max_retries}: Error fetching data for ^GSPC - {e}")
+            if retry < max_retries - 1:
+                print(f"Waiting {wait_time} seconds before retrying...")
+                time.sleep(wait_time)
+    else:
+        print("Max retries reached. Could not fetch data.")
 
 def create_sector_change_graph(filename):
     sectors                 = ['IT', 'Healthcare', 'Financials', 'Consumer Discretionary', 'Communication Services',

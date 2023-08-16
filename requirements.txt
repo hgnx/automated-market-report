@@ -1,0 +1,9 @@
+fredapi==0.5.1
+pandas==2.0.3
+plotly==5.16.0
+reportlab==4.0.4
+beautifulsoup4==4.12.2
+requests==2.31.0
+tqdm==4.66.1
+yfinance==0.2.28
+configparser==6.0.0

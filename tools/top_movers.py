@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 
 URL                         = "https://money.cnn.com/data/hotstocks/"
 
@@ -20,9 +21,18 @@ def process_data(df):
         ] for _, row in df.to_dict('index').items()
     ]
 
-def get_top_movers_data():
-    tables                  = pd.read_html(URL, encoding="utf-8")
-    gainers_data            = [["Ticker", "Company", "Price", "Change", "Change(%)"]] + process_data(tables[1])
-    losers_data             = [["Ticker", "Company", "Price", "Change", "Change(%)"]] + process_data(tables[2])
-    
-    return gainers_data, losers_data
+def get_top_movers_data(max_retries=3, wait_time=5):
+    for retry in range(max_retries):
+        try:
+            tables          = pd.read_html(URL, encoding="utf-8")
+            gainers_data    = [["Ticker", "Company", "Price", "Change", "Change(%)"]] + process_data(tables[1])
+            losers_data     = [["Ticker", "Company", "Price", "Change", "Change(%)"]] + process_data(tables[2])
+            return gainers_data, losers_data
+        except Exception as e:
+            print(f"Retrying {retry+1}/{max_retries}: Error fetching data from {URL} - {e}")
+            if retry < max_retries - 1:
+                print(f"Waiting {wait_time} seconds before retrying...")
+                time.sleep(wait_time)
+    print("Max retries reached. Could not fetch data.")
+    error_data              = ["Error", "", "", "", ""]
+    return [error_data], [error_data]
