@@ -22,6 +22,7 @@ The script fetches data from the following sources:
 | Top Gainers/Losers     | Top gaining and losing stocks data         | CNN                   | N/A                |
 | Economic Calendar      | Daily upcoming economic events data        | Investing.com         | N/A                |
 | News                   | Financial news headlines                   | Reuters, Financial Times | N/A             |
+* For the Economic Calendar, only events with an importance level of 3 are fetched. However, it has been observed that if there are no events with an importance level of 3 from Investing.com's URL, such as on weekends, events for the entire week are retrieved. If this issue occurs on weekdays as well, I will look into a solution.
 
 ## Setup
 - Before running the main script (`main.py`), configure your FRED API key using the `setup.py` script. You will be prompted to provide your FRED API key, which will be stored in a `config.ini` file for the main script to reference.
@@ -62,6 +63,8 @@ This is the initial release. I am considering several enhancements and features 
 - News:
   - [ ] Introduce an additional news source.
   - [ ] Incorporate sentiment analysis.
+- Economic Calendar:
+  - [ ] Address the issue of fetching all events when there are no events with an importance level of 3 (e.g., on weekends).
 
 As more ideas for improvement arise, they will be added to this list.
 

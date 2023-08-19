@@ -8,13 +8,12 @@ def banner():
 
 banner()
 
-config_file                 = 'config.ini'
-
-info                   = configparser.RawConfigParser()
+config_file                 = 'config.ini'  
+info                        = configparser.RawConfigParser()
 info.add_section('api')
 info.add_section('info')
 
-xfred                            = input("[+] Enter FRED API Key : ")
+xfred                       = input("[+] Enter FRED API Key : ")
 info.set('api', 'fred', xfred)
 info.set('info', 'src', 'https://github.com/hgnx/automated-market-report')
 

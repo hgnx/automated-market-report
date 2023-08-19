@@ -80,23 +80,6 @@ def get_shortened_news():
 
     reuters_news_shortened  = []
     for title, url in tqdm(reuters_news, desc="Shortening Reuters URLs"):
-        shortened_url       = get_shortened_url(url)
-        reuters_news_shortened.append((title, shortened_url))
-        time.sleep(0.5)
-
-    ft_news_shortened       = []
-    for title, url in tqdm(ft_news, desc="Shortening FT URLs"):
-        shortened_url       = get_shortened_url(url)
-        ft_news_shortened.append((title, shortened_url))
-        time.sleep(0.5)
-    
-    return reuters_news_shortened, ft_news_shortened
-
-def get_shortened_news():
-    reuters_news, ft_news   = get_news()
-
-    reuters_news_shortened  = []
-    for title, url in tqdm(reuters_news, desc="Shortening Reuters URLs"):
         shortened_url       = get_shortened_url(url) if url != "Error" else "Error"
         reuters_news_shortened.append((title, shortened_url))
         time.sleep(0.5)
