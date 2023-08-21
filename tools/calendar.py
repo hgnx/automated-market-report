@@ -52,7 +52,7 @@ def get_all_economic_data():
         if len(processed_data) > 1:
             return processed_data
         else:
-            return DEFAULT_HEADERS + [["No Event", "", "", "", ""]]
+            return DEFAULT_HEADERS + [["", "", "No important event today", "", ""]]
     except Exception as e:
         print(f"Error in get_all_economic_data - {e}")
-        return DEFAULT_HEADERS + [["Error", "", "", "", ""]]
+        return DEFAULT_HEADERS + [["", "", "Error fetching economic calendar", "", ""]]
